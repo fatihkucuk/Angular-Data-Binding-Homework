@@ -1,0 +1,99 @@
+*****game-control.ts********
+
+import { Component, OnInit, EventEmitter, Output} from '@angular/core';
+ 
+ 
+@Component({
+  selector: 'app-game-control',
+  templateUrl: './game-control.component.html',
+  styleUrls: ['./game-control.component.css']
+})
+export class GameControlComponent implements OnInit {
+ 
+  @Output() intervalFired = new EventEmitter<number>();
+  interval;
+  lastNumber = 0 ;
+ 
+  constructor() { }
+ 
+  ngOnInit() {
+  }
+  startingGame() {
+    this.interval = setInterval(() => {
+      this.intervalFired.emit(this.lastNumber + 1),
+        this.lastNumber ++ } , 1000);
+  }
+  onStop() {
+    clearInterval(this.interval);
+  }
+}
+****game-control.html****
+
+<button class="btn btn-primary"
+    (click)="startingGame()">Start</button>
+<button class="btn btn-danger"
+    (click)="onStop()">Stop</button>
+ 
+**app-component.html
+
+<button class="btn btn-primary"
+    (click)="startingGame()">Start</button>
+<button class="btn btn-danger"
+    (click)="onStop()">Stop</button>
+ 
+**app-component.ts**
+
+import { Component } from '@angular/core';
+ 
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  oddNumbers: number [] = [];
+  evenNumbers: number [] = [];
+ 
+ 
+  onIntervalFired(firedNumber: number){
+    if(firedNumber % 2 === 1){
+      this.oddNumbers.push(firedNumber);
+    }
+    else {
+      this.evenNumbers.push(firedNumber);
+    }
+  }
+}
+**odd-component.hmtl**
+
+<p>
+  ODD  - {?{number}}
+</p>
+**odd-component.ts
+
+<p>
+  ODD  - {?{number}}
+</p>
+**even-component.html
+
+<p>
+  EVEN  - {?{even}}
+</p>
+**even-component.ts
+
+import { Component, OnInit , Input } from '@angular/core';
+ 
+@Component({
+  selector: 'app-even',
+  templateUrl: './even.component.html',
+  styleUrls: ['./even.component.css']
+})
+export class EvenComponent implements OnInit {
+  @Input() even:number;
+ 
+  constructor() { }
+ 
+  ngOnInit() {
+  }
+ 
+}
